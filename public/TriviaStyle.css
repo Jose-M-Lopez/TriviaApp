@@ -1,0 +1,200 @@
+@font-face {
+            font-family: Simple Print;
+            src: url(SimplePrint.ttf);
+        }
+
+        body {
+            padding-top: 8rem;
+            font-family: Simple Print;
+            margin:0;
+        }
+        html
+        {
+            color:black;
+        }
+        .navbar a {
+            font-family: Simple Print !important;
+            font-size: 20pt;
+
+        }
+
+        .navbar {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .navbar-custom {
+            background-color: #BB93DD !important;
+
+        }
+
+        .navbar-nav>li {
+            padding-right: 25px;
+        }
+
+        .btn {
+            margin-left: 30px !important;
+            margin-right: 30px !important;
+            white-space:normal !important;
+            word-wrap:break-word
+        }
+        
+
+        .btn-primary
+        {
+            border-color:transparent;
+        }
+
+        .home-logo {
+            max-height: 650px !important;
+            margin-bottom:2%; 
+        }
+
+        .button-custom {
+            width:350px;
+            min-height:75px;
+            font-family: Simple Print;
+            color:black !important;
+            font-size: 2.5rem;
+            
+        }
+
+        .button-custom:hover {
+            transition-duration: 0.2s;
+            box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+            
+        }
+
+        .button-custom2 {
+            width: 80%;
+            min-height: 75px;
+            font-family: Simple Print;
+            color:black !important;
+            font-size: 2.5rem;
+        }
+
+        .button-custom2:hover {
+            transition-duration: 0.2s;
+            box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+
+        }
+
+        .jmbo-custom {
+            background-color: #BB93DD !important;
+            min-height: 47rem;
+            max-height: 47rem;
+
+        }
+
+        .lbl-custom {
+            font-size: 4em;
+            white-space:normal;
+            color: black;
+        }
+
+        .inpt-custom {
+            font-size: 3rem;
+            color: black;
+            text-indent: 5px;
+        }
+
+        .inpt-custom:focus {
+            color: black;
+        }
+
+        .inpt-custom2 {
+            font-size: 2rem;
+            color: black;
+            text-indent: 5px;
+        }
+
+        .inpt-custom2:focus {
+            color: black;
+        }
+
+        .difficulty-text {
+            text-align: center;
+            letter-spacing: 2px;
+            margin-bottom: 1%;
+            margin-top: -1%;
+            font-size: 6.6rem;
+            color: black;
+        }
+
+        .vertical-cntnr {
+            padding-bottom: 8%;
+        }
+
+        .vertical-cntnr2 {
+            padding-bottom: 4%;
+        }
+
+        .question-text {
+            text-align: center;
+            letter-spacing: 3px;
+            margin-bottom: 5%;
+            margin-top: -1%;
+            font-size: 3rem;
+            color: black;
+        }
+        
+        .button-custom3 {
+            min-height:65px;
+            font-family: Simple Print;
+            font-size: 2rem;
+            color: black;
+        }
+
+        .button-custom3:hover 
+        {
+            transition-duration: 0.2s;
+            box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+            color:black !important; 
+
+        }
+
+        .answer-btn:hover
+        {
+            color:white !important;
+        }
+        
+        .cstm-tbl {
+            color: black;
+            margin-top: 0%;
+            white-space:normal;
+            word-wrap:break-word;
+            font-size:2rem;
+        }
+        
+
+        .tbl-head {
+            background-color: #FFE4A4;
+        }
+
+        .btn-group-flex
+        {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar-dark .navbar-nav .nav-link {
+            color: black;
+        }
+
+        .navbar-dark .navbar-nav .active>.nav-link
+        {
+            color:black;
+            font-weight:bold;
+        }
+
+        .navbar-dark .navbar-nav .nav-link:hover {
+            font-weight:bold;
+            color:black;
+        }
+
+        .navbar-dark .navbar-nav .nav-link.active {
+            color: black;
+            font-weight:bold;
+        }
+
+        
