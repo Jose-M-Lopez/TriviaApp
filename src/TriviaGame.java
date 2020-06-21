@@ -12,11 +12,15 @@ import static Utility.PasswordStorage.*;
 import okhttp3.*;
 import java.util.Random;
 
+import javax.inject.Inject;
+
 @Path("/api")
 public class TriviaGame {
 
-	TriviaGame() throws SQLException {
-		triviaDB = new Database(); // Initializing database.
+	@Inject
+	TriviaGame(Database db) throws SQLException 
+	{
+		triviaDB = db; // Initializing database.
 	}
 
 	Database triviaDB;

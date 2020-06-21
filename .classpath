@@ -9,5 +9,9 @@
 	<classpathentry kind="lib" path="Lib/okio-2.1.0.jar"/>
 	<classpathentry kind="lib" path="Lib/moshi-1.7.0.jar"/>
 	<classpathentry kind="lib" path="Lib/okhttp-3.11.0.jar"/>
+	<classpathentry kind="lib" path="Lib/jaxb-runtime-2.4.0-b180830.0438.jar"/>
+	<classpathentry kind="lib" path="Lib/jaxb-api-2.4.0-b180830.0359.jar"/>
+	<classpathentry kind="lib" path="Lib/HikariCP-3.4.5.jar"/>
+	<classpathentry kind="lib" path="Lib/jooby-jdbc-1.6.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
