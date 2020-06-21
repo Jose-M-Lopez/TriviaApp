@@ -15,13 +15,12 @@ import javax.inject.Inject;
 import javax.sql.DataSource;
 
 public class Database {
-	DataSource cpds;
-	
+	DataSource datasource;
 	
 	@Inject
 	public Database(DataSource ds) throws SQLException
 	{
-		cpds = ds;
+		datasource = ds;
 	}
 
 	// Passing query into database to insert questions.
@@ -32,7 +31,7 @@ public class Database {
 		String insertionQuery = "INSERT INTO question (Difficulty, Category, Question, ifCorrect, RoundID)"
 				+ " VALUES (?, ?, ?, ?, ?);";
 		try {
-			conn = cpds.getConnection();
+			conn = datasource.getConnection();
 			statement = conn.prepareStatement(insertionQuery);
 			statement.setString(1, difficulty);
 			statement.setString(2, category);
@@ -58,7 +57,7 @@ public class Database {
 		String insertionQuery = "INSERT INTO round (UserID)" + " VALUES (?);";
 
 		try {
-			conn = cpds.getConnection();
+			conn = datasource.getConnection();
 			// Statement.RETURN_GENERATED_KEYS allows for generated key values such as
 			// RoundID, to be returned.
 			statement = conn.prepareStatement(insertionQuery, Statement.RETURN_GENERATED_KEYS);
@@ -88,7 +87,7 @@ public class Database {
 		Connection conn = null;
 		String updateQuery = "UPDATE round SET Points_Earned = ? WHERE RoundID = ?";
 		try {
-			conn = cpds.getConnection();
+			conn = datasource.getConnection();
 			statement = conn.prepareStatement(updateQuery);
 			statement.setInt(1, Points);
 			statement.setInt(2, RoundID);
@@ -110,7 +109,7 @@ public class Database {
 		Connection conn = null;
 		String insertionQuery = "INSERT INTO user (Username, Password)" + " VALUES (?, ?);";
 		try {
-			conn = cpds.getConnection();
+			conn = datasource.getConnection();
 			statement = conn.prepareStatement(insertionQuery);
 			statement.setString(1, Username);
 			statement.setString(2, Password);
@@ -134,7 +133,7 @@ public class Database {
 		String selectCount = "SELECT COUNT(UserID) FROM user WHERE Username = ?";
 
 		try {
-			conn = cpds.getConnection();
+			conn = datasource.getConnection();
 			checkStatement = conn.prepareStatement(selectCount);
 			checkStatement.setString(1, Username);
 			ResultSet checkRS = checkStatement.executeQuery();
@@ -169,7 +168,7 @@ public class Database {
 		Connection conn = null;
 		String updateQuery = "UPDATE user SET Total_Points = Total_Points + ? WHERE UserID = ?";
 		try {
-			conn = cpds.getConnection();
+			conn = datasource.getConnection();
 			statement = conn.prepareStatement(updateQuery);
 			statement.setInt(1, points);
 			statement.setInt(2, userID);
@@ -191,7 +190,7 @@ public class Database {
 		Connection conn = null;
 		String deleteQuery = "DELETE FROM round WHERE Points_Earned IS NULL";
 		try {
-			conn = cpds.getConnection();
+			conn = datasource.getConnection();
 			statement = conn.prepareStatement(deleteQuery);
 			statement.executeUpdate();
 		} finally {
@@ -212,7 +211,7 @@ public class Database {
 		String deleteQuery = "DELETE FROM `question` WHERE RoundID IN"
 				+ "(SELECT RoundID FROM round WHERE Points_earned IS NULL)";
 		try {
-			conn = cpds.getConnection();
+			conn = datasource.getConnection();
 			statement = conn.prepareStatement(deleteQuery);
 			statement.executeUpdate();
 		} finally {
@@ -232,7 +231,7 @@ public class Database {
 		Leaderboard topPlayers = new Leaderboard();
 		String selectQuery = "SELECT * FROM user ORDER BY Total_Points DESC LIMIT 10";
 		try {
-			conn = cpds.getConnection();
+			conn = datasource.getConnection();
 			statement = conn.prepareStatement(selectQuery);
 			ResultSet rs = statement.executeQuery();
 			// Storing top users into a leaderboard object to hold them.
@@ -260,7 +259,7 @@ public class Database {
 		String questionQuery = "SELECT * FROM `question` WHERE RoundID = ?";
 
 		try {
-			conn = cpds.getConnection();
+			conn = datasource.getConnection();
 			statement = conn.prepareStatement(questionQuery);
 			statement.setInt(1, RoundID);
 			ResultSet rs = statement.executeQuery();
@@ -295,7 +294,7 @@ public class Database {
 		String questionQuery = "SELECT * FROM `round` WHERE UserID = ?";
 
 		try {
-			conn = cpds.getConnection();
+			conn = datasource.getConnection();
 			statement = conn.prepareStatement(questionQuery);
 			statement.setInt(1, UserID);
 			ResultSet rs = statement.executeQuery();
