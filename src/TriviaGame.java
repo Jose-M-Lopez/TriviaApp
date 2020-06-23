@@ -38,13 +38,14 @@ public class TriviaGame {
 	final JsonAdapter<Token> TokenJsonAdapter = moshi.adapter(Token.class);
 
 	// Array of potential categories for the questions.
-	int Categories[] = { 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 23, 24, 25, 26, 27, 30, 32 };
+	int[] Categories = { 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32 };
 
-	/*
-	 * ---CATEGORIES--- 9:General Knowledge, 10:Books 11:Film, 12:Music 13:Musicals
-	 * & Theater, 14:Television 15:Video Games, 16:Board Games 17:Science & Nature,
-	 * 18:Computers 19:Mathematics, 20:Mythology 23:History, 24:Politics 25:Art,
-	 * 26:Celebrities 27:Animals, 30:Gadgets 32:Cartoons & Animations
+	/*							---CATEGORIES--- 
+	 * 9:General Knowledge, 10:Books, 11:Film, 12:Music, 13:Musicals
+	 * & Theater, 14:Television, 15:Video Games, 16:Board Games, 17:Science & Nature,
+	 * 18:Computers, 19:Mathematics, 20:Mythology, 21:Sports, 22:Geography, 
+	 * 23:History, 24:Politics, 25:Art, 26:Celebrities, 27:Animals, 28:Vehicles, 
+	 * 29: Comics, 30:Gadgets, 31:Japanese Anime & Manga, 32:Cartoons & Animations
 	 */
 
 	Random rand = new Random();

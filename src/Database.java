@@ -30,6 +30,7 @@ public class Database {
 		Connection conn = null;
 		String insertionQuery = "INSERT INTO question (Difficulty, Category, Question, ifCorrect, RoundID)"
 				+ " VALUES (?, ?, ?, ?, ?);";
+		
 		try {
 			conn = datasource.getConnection();
 			statement = conn.prepareStatement(insertionQuery);
@@ -39,6 +40,7 @@ public class Database {
 			statement.setBoolean(4, ifCorrect);
 			statement.setInt(5, roundID);
 			statement.executeUpdate();
+		// Checking and closing statement/connection.
 		} finally {
 			if (statement != null) {
 				statement.close();

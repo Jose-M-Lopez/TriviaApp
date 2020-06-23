@@ -1,0 +1,27 @@
+<component name="libraryTable">
+  <library name="org.jooby:jooby-jdbc:1.6.7" type="repository">
+    <properties maven-id="org.jooby:jooby-jdbc:1.6.7" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jooby/jooby-jdbc/1.6.7/jooby-jdbc-1.6.7.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/jooby/jooby/1.6.7/jooby-1.6.7.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/ch/qos/logback/logback-core/1.2.3/logback-core-1.2.3.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/typesafe/config/1.3.3/config-1.3.3.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/jooby/funzy/0.1.0/funzy-0.1.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/guava/25.1-jre/guava-25.1-jre.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/checkerframework/checker-qual/2.0.0/checker-qual-2.0.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/errorprone/error_prone_annotations/2.1.3/error_prone_annotations-2.1.3.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/j2objc/j2objc-annotations/1.1/j2objc-annotations-1.1.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/mojo/animal-sniffer-annotations/1.14/animal-sniffer-annotations-1.14.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/inject/extensions/guice-multibindings/4.2.0/guice-multibindings-4.2.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/inject/guice/4.2.0/guice-4.2.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/javax/inject/javax.inject/1/javax.inject-1.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/aopalliance/aopalliance/1.0/aopalliance-1.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/zaxxer/HikariCP/3.3.1/HikariCP-3.3.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
