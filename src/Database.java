@@ -18,7 +18,7 @@ public class Database {
 	DataSource datasource;
 	
 	@Inject
-	public Database(DataSource ds) throws SQLException
+	public Database(DataSource ds)
 	{
 		datasource = ds;
 	}
@@ -30,7 +30,7 @@ public class Database {
 		Connection conn = null;
 		String insertionQuery = "INSERT INTO question (Difficulty, Category, Question, ifCorrect, RoundID)"
 				+ " VALUES (?, ?, ?, ?, ?);";
-		
+
 		try {
 			conn = datasource.getConnection();
 			statement = conn.prepareStatement(insertionQuery);
@@ -67,10 +67,9 @@ public class Database {
 			statement.executeUpdate();
 			// Storing returned generated keys in Result.
 			ResultSet Result = statement.getGeneratedKeys();
-			Result.first();
-			int key = Result.getInt(1);
+			Result.next();
 			// returning RoundID.
-			return key;
+			return Result.getInt(1);
 		} finally {
 			if (statement != null) {
 				statement.close();
@@ -130,7 +129,7 @@ public class Database {
 	// Returning User object that contains user information from Database.
 	User getUser(String Username) throws SQLException {
 		PreparedStatement statement = null;
-		PreparedStatement checkStatement = null;
+		PreparedStatement checkStatement;
 		Connection conn = null;
 		String selectCount = "SELECT COUNT(UserID) FROM user WHERE Username = ?";
 
@@ -139,7 +138,7 @@ public class Database {
 			checkStatement = conn.prepareStatement(selectCount);
 			checkStatement.setString(1, Username);
 			ResultSet checkRS = checkStatement.executeQuery();
-			checkRS.first();
+			checkRS.next();
 			// Returning null if user does not exist within the database.
 			if (checkRS.getInt(1) == 0) {
 				return null;
@@ -149,9 +148,8 @@ public class Database {
 			statement = conn.prepareStatement(selectQuery);
 			statement.setString(1, Username);
 			ResultSet rs = statement.executeQuery();
-			rs.first();
-			User player = new User(rs.getString("Username"), rs.getString("Password"), rs.getInt("UserID"));
-			return player;
+			rs.next();
+			return new User(rs.getString("Username"), rs.getString("Password"), rs.getInt("UserID"));
 
 		} finally {
 			if (statement != null) {
@@ -187,13 +185,15 @@ public class Database {
 	}
 
 	// Removing rounds with a null point value(incompleted rounds).
-	void deleteIncompleteRounds() throws SQLException {
+	void deleteIncompleteRounds(int userID) throws SQLException {
 		PreparedStatement statement = null;
 		Connection conn = null;
-		String deleteQuery = "DELETE FROM round WHERE Points_Earned IS NULL";
+		String deleteQuery = "DELETE FROM round WHERE Points_Earned IS NULL " +
+				            "AND UserID = ?";
 		try {
 			conn = datasource.getConnection();
 			statement = conn.prepareStatement(deleteQuery);
+			statement.setInt(1, userID);
 			statement.executeUpdate();
 		} finally {
 			if (statement != null) {
@@ -207,14 +207,15 @@ public class Database {
 	}
 
 	// Removing questions associated with an incomplete round.
-	void deleteIncompleteQuestions() throws SQLException {
+	void deleteIncompleteQuestions(int userID) throws SQLException {
 		PreparedStatement statement = null;
 		Connection conn = null;
 		String deleteQuery = "DELETE FROM `question` WHERE RoundID IN"
-				+ "(SELECT RoundID FROM round WHERE Points_earned IS NULL)";
+				+ "(SELECT RoundID FROM round WHERE Points_earned IS NULL AND UserID = ?)";
 		try {
 			conn = datasource.getConnection();
 			statement = conn.prepareStatement(deleteQuery);
+			statement.setInt(1, userID);
 			statement.executeUpdate();
 		} finally {
 			if (statement != null) {
