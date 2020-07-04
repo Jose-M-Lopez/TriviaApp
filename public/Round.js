@@ -1,4 +1,4 @@
-var cntr = 0;
+var counter;
 var g_buttonClicked;
 var submitTime = 0;
 var activeRound = false;
@@ -51,11 +51,16 @@ function newQuestion() {
                 });
 
 
-                document.getElementById("question").innerHTML = data.question;
+                document.getElementById("question").innerText = data.question;
                 document.getElementById("ans1").textContent = data.answers[0];
                 document.getElementById("ans2").textContent = data.answers[1];
                 document.getElementById("ans3").textContent = data.answers[2];
                 document.getElementById("ans4").textContent = data.answers[3];
+                counter = data.counter;
+
+                console.log(document.getElementById("progressbar").style.width =10 *(counter+1) + "%");
+
+                console.log(counter);
 
                 for (var i = 0; i < $(".btn-block").length; ++i) {
                     $(".btn-block")[i].disabled = false;
@@ -77,8 +82,6 @@ function checkAnswer(buttonClicked) {
     }
 
     g_buttonClicked = buttonClicked;
-    var oldWidth = parseInt(document.getElementById("progressbar").style.width);
-    document.getElementById("progressbar").style.width = oldWidth + 10 + "%";
 
     var getCheckRequest = $.ajax({
 
@@ -97,8 +100,7 @@ function checkAnswer(buttonClicked) {
         },
 
         success: function (data) {
-            if (cntr < 9) {
-                ++cntr;
+            if (counter < 9) {
                 newQuestion();
             }
             else {
@@ -139,12 +141,12 @@ function checkAnswer(buttonClicked) {
                             var questioncategory = document.createElement('td');
                             questioncategory.setAttribute("id", "c" + i);
                             questioncategory.setAttribute("scope", "row");
-                            questioncategory.innerHTML = data.roundQuestions[i].category;
+                            questioncategory.innerText = data.roundQuestions[i].category;
 
                             var questioncontent = document.createElement('td');
                             questioncontent.setAttribute("id", "q" + i);
                             questioncontent.setAttribute("scope", "row");
-                            questioncontent.innerHTML = data.roundQuestions[i].question;
+                            questioncontent.innerText = data.roundQuestions[i].question;
 
 
 

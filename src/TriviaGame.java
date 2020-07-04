@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
-
 import org.jooby.Session;
 import org.jooby.mvc.GET;
 import org.jooby.mvc.POST;
@@ -9,20 +8,15 @@ import org.jooby.mvc.Path;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import Models.*;
-
 import static Utility.PasswordStorage.*;
-
 import okhttp3.*;
-
-import java.util.Random;
-
 import javax.inject.Inject;
 
 @Path("/api")
 public class TriviaGame {
 
     @Inject
-    TriviaGame(Database db){
+    TriviaGame(Database db) {
         triviaDB = db; // Initializing database.
     }
 
@@ -38,24 +32,10 @@ public class TriviaGame {
     final JsonAdapter<QuestionHistory> QuestionHistoryJsonAdapter = moshi.adapter(QuestionHistory.class);
     final JsonAdapter<RoundHistory> RoundHistoryJsonAdapter = moshi.adapter(RoundHistory.class);
     final JsonAdapter<GenericResponse> GenericResponseJsonAdapter = moshi.adapter(GenericResponse.class);
-    final JsonAdapter<Token> TokenJsonAdapter = moshi.adapter(Token.class);
-
-    // Array of potential categories for the questions.
-    int[] Categories = {9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32};
-
-    /*							---CATEGORIES---
-     * 9:General Knowledge, 10:Books, 11:Film, 12:Music, 13:Musicals
-     * & Theater, 14:Television, 15:Video Games, 16:Board Games, 17:Science & Nature,
-     * 18:Computers, 19:Mathematics, 20:Mythology, 21:Sports, 22:Geography,
-     * 23:History, 24:Politics, 25:Art, 26:Celebrities, 27:Animals, 28:Vehicles,
-     * 29: Comics, 30:Gadgets, 31:Japanese Anime & Manga, 32:Cartoons & Animations
-     */
-
-    Random rand = new Random();
 
     // Path to return questions and answers.
+    @GET
     @Path("/getQuestion")
-    @GET // POST?
     public String getQuestion(Session session) throws IOException {
         // Checking if user is logged in.
         if (!session.isSet(SessionEnums.UserID.name())) {
@@ -65,43 +45,33 @@ public class TriviaGame {
         if (!session.isSet(SessionEnums.RoundID.name())) {
             return getGenericResponse("No round started.", true);
         }
-        QnA Quest = new QnA();
-        // Randomizing round selection.
-        int randomCategory = Categories[rand.nextInt(Categories.length)];
+        // Creating QnA object to send to client.
+        QnA quest = new QnA();
         List<String> answers = new ArrayList<>();
-        // Creating API call to receive questions.
-        String requestURL = "https://opentdb.com/api.php?amount=1&category=" + randomCategory + "&difficulty="
-                + session.get(SessionEnums.difficulty.name()).value() + "&type=multiple&encode=url3986&token="
-                + session.get(SessionEnums.token.name()).value();
-        // Executing API call.
-        Request request = new Request.Builder().url(requestURL).build();
-        try (Response response = client.newCall(request).execute()) {
-            // Checking whether or not the call was successful.
-            if (!response.isSuccessful())
-                throw new IOException("Unexpected code " + response);
-            // Parsing response JSON and storing it into TriviaResponse object.
-            TriviaResponse questions = gistJsonAdapter.fromJson(response.body().source());
-            // Storing results from TriviaResponse object into QnA object.
-            if ((questions.getResults().get(0).getQuestion() != null)) {
-                Quest.setQuestion(questions.getResults().get(0).getQuestion()); // getResults is a list, need to use
-                // .get(element) to access questions.
-
-            }
-
-            // Separating answers into either correct or incorrect inside of a string list.
-            answers.addAll(questions.getResults().get(0).getIncorrect_answers());
-            answers.add(questions.getResults().get(0).getCorrect_answer());
-            // Shuffling location of correct answer each time.
-            Collections.shuffle(answers);
-            // Inserting answers into QnA object.
-            Quest.setAnswers(answers);
-            // Setting the question information for the session.
-            session.set(SessionEnums.question.name(), Quest.getQuestion());
-            session.set(SessionEnums.category.name(), questions.getResults().get(0).getCategory());
-            session.set(SessionEnums.correctAns.name(), questions.getResults().get(0).getCorrect_answer());
-            // Returning encoded JSON.
-            return QnAJsonAdapter.toJson(Quest);
+        int index = session.get(SessionEnums.listIndex.name()).intValue();
+        // Parsing response JSON and storing it into TriviaResponse object.
+        TriviaResponse questions = gistJsonAdapter.fromJson(session.get(SessionEnums.questionList.name()).value());
+        // Storing results from TriviaResponse object into QnA object.
+        if ((questions.getResults().get(index).getQuestion() != null)) {
+            quest.setQuestion(questions.getResults().get(index).getQuestion()); // getResults is a list, need to use
+            // .get(element) to access questions.
+            System.out.println(index);
         }
+
+        // Separating answers into either correct or incorrect inside of a string list.
+        answers.addAll(questions.getResults().get(index).getIncorrect_answers());
+        answers.add(questions.getResults().get(index).getCorrect_answer());
+        // Shuffling location of correct answer each time.
+        Collections.shuffle(answers);
+        // Inserting answers into QnA object.
+        quest.setAnswers(answers);
+        quest.setCounter(index);
+        // Setting the question information for the session.
+        session.set(SessionEnums.question.name(), quest.getQuestion());
+        session.set(SessionEnums.category.name(), questions.getResults().get(index).getCategory());
+        session.set(SessionEnums.correctAns.name(), questions.getResults().get(index).getCorrect_answer());
+        // Returning encoded JSON.
+        return QnAJsonAdapter.toJson(quest);
     }
 
     // Path to check whether or not user answered correctly.
@@ -165,6 +135,9 @@ public class TriviaGame {
                 session.get(SessionEnums.ifCorrect.name()).booleanValue(),
                 session.get(SessionEnums.RoundID.name()).intValue());
 
+        int index = session.get(SessionEnums.listIndex.name()).intValue();
+        session.set(SessionEnums.listIndex.name(), ++index);
+
         // Cleaning up session in-between questions.
         session.unset(SessionEnums.question.name());
         session.unset(SessionEnums.correctAns.name());
@@ -183,36 +156,41 @@ public class TriviaGame {
         if (session.isSet(SessionEnums.RoundID.name())) {
             return getGenericResponse("Round already in progress.", true);
         }
+        // Cleaning up session in-between rounds.
+        session.unset(SessionEnums.question.name());
+        session.unset(SessionEnums.questionList.name());
+        session.unset(SessionEnums.listIndex.name());
+        session.unset(SessionEnums.correctAns.name());
+        session.unset(SessionEnums.category.name());
+        session.unset(SessionEnums.difficulty.name());
+        session.unset(SessionEnums.RoundID.name());
+        session.unset(SessionEnums.ifCorrect.name());
+        session.unset(SessionEnums.score.name());
 
-        // Creating a token that stops questions from repeating.
-        String requestToken = "https://opentdb.com/api_token.php?command=request";
-        Request request = new Request.Builder().url(requestToken).build();
+
+        // Passes and sets user selected difficulty for the round.
+        session.set(SessionEnums.difficulty.name(), difficulty);
+        // Sets RoundID and inserts it into the database.
+        session.set(SessionEnums.RoundID.name(), triviaDB.insertRound(session.get(SessionEnums.UserID.name()).intValue()));
+        // Initializes score for the session.
+        session.set(SessionEnums.score.name(), 0);
+
+
+        //Requesting 10 questions from TriviaDB.
+        String requestURL = "https://opentdb.com/api.php?amount=10" + "&difficulty="
+                + session.get(SessionEnums.difficulty.name()).value() + "&type=multiple&encode=url3986";
+        // Executing API call.
+        Request request = new Request.Builder().url(requestURL).build();
         try (Response response = client.newCall(request).execute()) {
+            // Checking whether or not the call was successful.
             if (!response.isSuccessful())
                 throw new IOException("Unexpected code " + response);
-
-            Token token = TokenJsonAdapter.fromJson(response.body().source());
-
-            // Cleaning up session in-between rounds.
-            session.unset(SessionEnums.question.name());
-            session.unset(SessionEnums.correctAns.name());
-            session.unset(SessionEnums.category.name());
-            session.unset(SessionEnums.difficulty.name());
-            session.unset(SessionEnums.RoundID.name());
-            session.unset(SessionEnums.ifCorrect.name());
-            session.unset(SessionEnums.score.name());
-            session.unset(SessionEnums.token.name());
-
-            // Passes and sets user selected difficulty for the round.
-            session.set(SessionEnums.difficulty.name(), difficulty);
-            // Sets RoundID and inserts it into the database.
-            session.set(SessionEnums.RoundID.name(), triviaDB.insertRound(session.get(SessionEnums.UserID.name()).intValue()));
-            // Sets token for the session.
-            session.set(SessionEnums.token.name(), token.getToken());
-            session.set(SessionEnums.score.name(), 0);
-
-            return getGenericResponse("Round started");
+            // Storing TriviaDB response in session variable.
+            session.set(SessionEnums.questionList.name(), response.body().string());
+            session.set(SessionEnums.listIndex.name(), 0);
         }
+
+        return getGenericResponse("Round started");
     }
 
     // Finishes round once user is done answering questions.
@@ -239,8 +217,9 @@ public class TriviaGame {
         session.unset(SessionEnums.category.name());
         session.unset(SessionEnums.difficulty.name());
         session.unset(SessionEnums.ifCorrect.name());
-        session.unset(SessionEnums.token.name());
         session.unset(SessionEnums.RoundID.name());
+        session.unset(SessionEnums.questionList.name());
+        session.unset(SessionEnums.listIndex.name());
 
         // returning round results.
         return QuestionHistoryJsonAdapter.toJson(Results);

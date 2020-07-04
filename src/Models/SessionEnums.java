@@ -3,7 +3,7 @@ package Models;
 	//Storing strings used by API.
 	public enum SessionEnums
 	{
-		score, difficulty, correctAns, ifCorrect, question, RoundID, category, UserID, token
+		score, difficulty, correctAns, ifCorrect, question, RoundID, category, UserID, questionList, listIndex
 
 	}
 

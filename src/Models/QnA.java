@@ -5,6 +5,7 @@ public class QnA
 {
 	private List<String> answers;
 	private String question;
+	private int counter;
 	
 	public List<String> getAnswers()
 	{
@@ -25,5 +26,10 @@ public class QnA
 	{
 		this.question = question;
 	}
-	
+
+	public void setCounter(int counter)
+	{
+		this.counter = counter;
+	}
+
 }
