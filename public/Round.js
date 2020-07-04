@@ -58,9 +58,8 @@ function newQuestion() {
                 document.getElementById("ans4").textContent = data.answers[3];
                 counter = data.counter;
 
-                console.log(document.getElementById("progressbar").style.width =10 *(counter+1) + "%");
+               document.getElementById("progressbar").style.width =10 *(counter+1) + "%";
 
-                console.log(counter);
 
                 for (var i = 0; i < $(".btn-block").length; ++i) {
                     $(".btn-block")[i].disabled = false;
