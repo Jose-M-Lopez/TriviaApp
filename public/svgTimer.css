@@ -1,3 +1,5 @@
+/* SOURCE: https://www.jqueryscript.net/time-clock/Minimal-Hexagon-Countdown-Timer-With-jQuery-SVG-SVG-Timer.html */
+
 @font-face {
     font-family: Simple Print;
     src: url(SimplePrint.ttf);
@@ -24,7 +26,6 @@
     -webkit-transform: rotate(-90deg);
     transform: rotate(-90deg);
 }*/
-
 
 .svg-hexagonal-counter .counter{
     width: 115px;

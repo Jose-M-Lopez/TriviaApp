@@ -3,85 +3,78 @@ package Models;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+
 //Class containing data parsed from Trivia APIs JSON, allows us to alter and display it.
 public class Result {
-	private String category;
+    private String category;
+    private String correct_answer;
+    private String difficulty;
+    private String question;
+    private String type;
+    private List<String> incorrect_answers;
 
-	private String correct_answer;
+    public String getCategory() throws UnsupportedEncodingException {
+        //URL decoding into UTF-8 to avoid messed up strings and to match encoding of API call.
+        return java.net.URLDecoder.decode(category, "UTF-8");
+    }
 
-	private String difficulty;
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
-	private String question;
+    public String getCorrect_answer() throws UnsupportedEncodingException {
 
-	private String type;
+        return java.net.URLDecoder.decode(correct_answer, "UTF-8");
+    }
 
-	private List<String> incorrect_answers;
+    public void setCorrect_answer(String correct_answer) {
+        this.correct_answer = correct_answer;
+    }
 
-	public String getCategory() throws UnsupportedEncodingException {
-		String result = java.net.URLDecoder.decode(category, "UTF-8"); //URL decoding into UTF-8 to avoid messed up strings
-																	   //and to match encoding of API call.
-		return result;
-	}
+    public String getDifficulty() {
+        return difficulty;
+    }
 
-	public void setCategory(String category) {
-		this.category = category;
-	}
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
 
-	public String getCorrect_answer() throws UnsupportedEncodingException {
-		String result = java.net.URLDecoder.decode(correct_answer, "UTF-8");
+    public String getQuestion() throws UnsupportedEncodingException {
 
-		return result;
-	}
+        return java.net.URLDecoder.decode(question, "UTF-8");
+    }
 
-	public void setCorrect_answer(String correct_answer) {
-		this.correct_answer = correct_answer;
-	}
+    public void setQuestion(String question) {
+        this.question = question;
+    }
 
-	public String getDifficulty() {
+    public String getType() {
+        return type;
+    }
 
-		return difficulty;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public void setDifficulty(String difficulty) {
-		this.difficulty = difficulty;
-	}
+    public List<String> getIncorrect_answers() throws UnsupportedEncodingException {
+        List<String> encoded_answers = new ArrayList<String>();
 
-	public String getQuestion() throws UnsupportedEncodingException {
-		String result = java.net.URLDecoder.decode(question, "UTF-8");
+        for (String elements : incorrect_answers) {
+            encoded_answers.add(java.net.URLDecoder.decode(elements, "UTF-8"));
+        }
 
-		return result;
-	}
+        return encoded_answers;
+    }
 
-	public void setQuestion(String question) {
-		this.question = question;
-	}
+    public void setIncorrect_answers(List<String> incorrect_answers) {
+        this.incorrect_answers = incorrect_answers;
+    }
 
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public List<String> getIncorrect_answers() throws UnsupportedEncodingException {
-		List<String> encoded_answers = new ArrayList<String>();
-
-		for (String elements : incorrect_answers) {
-			encoded_answers.add(java.net.URLDecoder.decode(elements, "UTF-8"));
-		}
-		return encoded_answers;
-	}
-
-	public void setIncorrect_answers(List<String> incorrect_answers) {
-		this.incorrect_answers = incorrect_answers;
-	}
-
-	@Override
-	public String toString() {
-		return "ClassPojo [category = " + category + ", correct_answer = " + correct_answer + ", difficulty = "
-				+ difficulty + ", question = " + question + ", type = " + type + ", incorrect_answers = "
-				+ incorrect_answers + "]";
-	}
-
+    //String print method.
+    @Override
+    public String toString() {
+        return "ClassPojo [category = " + category + ", correct_answer = " + correct_answer + ", difficulty = "
+                + difficulty + ", question = " + question + ", type = " + type + ", incorrect_answers = "
+                + incorrect_answers + "]";
+    }
 }

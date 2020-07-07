@@ -1,3 +1,4 @@
+//Redirecting to homepage if not logged in.
 checkLogin().then(function(isLoggedIn)
 {
     if(isLoggedIn === false)
@@ -7,6 +8,7 @@ checkLogin().then(function(isLoggedIn)
 
 });
 
+//Helper function to start the game once a difficulty is selected.
 function diffSelect(val) {
     var diffRequest = $.ajax(
         {
@@ -29,6 +31,7 @@ function diffSelect(val) {
     )
 };
 
+//Alert to inform first time users of the timer's functionality. 
 setTimeout(function (){
     if(localStorage.getItem("New")===null)
     {

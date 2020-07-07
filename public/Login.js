@@ -1,4 +1,6 @@
 var loginButton = $('#login');
+
+//Sending form information to back-end and requesting to log in.
 loginButton.click(function submitLogin(event) {
     event.preventDefault();
 
@@ -12,25 +14,22 @@ loginButton.click(function submitLogin(event) {
             },
             dataType: "json",
 
-            error: function (data) 
-            {
-                alert(data.message);     
+            error: function (data) {
+                alert(data.message);
             },
-            success: function (data) 
-            {
-                    if(!data.error)
-                    {   
-                        window.location ="/";   
-                    }
-                    else
-                    {
-                        alert(data.message);
-                    } 
+            success: function (data) {
+                if (!data.error) {
+                //Redirect to homepage on successful login.
+                    window.location = "/";
+                }
+                else {
+                    alert(data.message);
+                }
             }
         });
-
 });
 
+//Sending form information to back-end and requesting a new account.
 var createButton = $('#register');
 createButton.click(function submitLogin(event) {
     event.preventDefault();
@@ -45,12 +44,10 @@ createButton.click(function submitLogin(event) {
             },
             dataType: "json",
 
-            error: function (data) 
-            {
-                alert(data.message); 
+            error: function (data) {
+                alert(data.message);
             },
-            success: function (data) 
-            { 
+            success: function (data) {
                 alert(data.message)
             }
 

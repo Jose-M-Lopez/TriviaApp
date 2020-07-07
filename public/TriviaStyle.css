@@ -1,3 +1,6 @@
+/* Trivia web app stylesheet */
+
+/* SOURCE: https://www.dafont.com/simple-print.font */
 @font-face {
             font-family: Simple Print;
             src: url(SimplePrint.ttf);
@@ -166,7 +169,6 @@
             font-size:2rem;
         }
         
-
         .tbl-head {
             background-color: #FFE4A4;
         }

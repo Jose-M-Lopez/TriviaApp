@@ -1,16 +1,17 @@
 package Models;
+
 //Skeleton class to return strings as JSON.
 public class GenericResponse {
-	private String message;
-	boolean error; //designates whether a message is an error.
+    //Designates whether or not a message is an error.
+    boolean error;
+    private final String message;
 
-	public GenericResponse(String message) {
-		this.message = message;
-	}
+    public GenericResponse(String message) {
+        this.message = message;
+    }
 
-	public GenericResponse(String message, boolean error) {
-		this.message = message;
-		this.error = error;
-	}
-
+    public GenericResponse(String message, boolean error) {
+        this.message = message;
+        this.error = error;
+    }
 }

@@ -1,5 +1,7 @@
-(function ( $ ) {
-    $.fn.svgTimer = function(options) {
+//SOURCE: https://www.jqueryscript.net/time-clock/Minimal-Hexagon-Countdown-Timer-With-jQuery-SVG-SVG-Timer.html
+
+(function ($) {
+    $.fn.svgTimer = function (options) {
         var opts = $.extend({}, $.fn.svgTimer.defaults, options);
 
         var template = "<div class='svg-hexagonal-counter'>"
@@ -10,7 +12,7 @@
             + "</svg>"
             + "</div>";
 
-        return this.each(function() {
+        return this.each(function () {
             // Build dom for svg countdown
             var parentEl = $(this);
             parentEl.append(template);
@@ -29,19 +31,19 @@
             track.css('stroke', opts.track);
             fill.css({
                 'stroke': opts.fill,
-                'stroke-dashoffset': initialOffset-(i*(initialOffset/time)) + 'px',
-                'transition': 'stroke-dashoffset 1s ' +  opts.transition
+                'stroke-dashoffset': initialOffset - (i * (initialOffset / time)) + 'px',
+                'transition': 'stroke-dashoffset 1s ' + opts.transition
             });
 
             //run timer
-            var interval = setInterval(function() {
+            var interval = setInterval(function () {
                 track.css('stroke', opts.track);
                 fill.css({
                     'stroke': opts.fill,
-                    'stroke-dashoffset': initialOffset-(i*(initialOffset/time)) + 'px',
-                    'transition': 'stroke-dashoffset 1s ' +  opts.transition
+                    'stroke-dashoffset': initialOffset - (i * (initialOffset / time)) + 'px',
+                    'transition': 'stroke-dashoffset 1s ' + opts.transition
                 });
-                if(opts.direction === 'forward'){
+                if (opts.direction === 'forward') {
                     counterText.text(i);
                 } else if (opts.direction === 'backward') {
                     var count = opts.time - i + 1;
@@ -64,6 +66,4 @@
         direction: 'forward',
         interval: 1000
     }
-
-   
-}( jQuery ));
+}(jQuery));

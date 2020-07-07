@@ -3,17 +3,17 @@ var g_buttonClicked;
 var submitTime = 0;
 var activeRound = false;
 
+//Warning on question refresh.
 window.addEventListener('beforeunload', (event) => {
     if (activeRound === true) {
-        // Cancel the event as stated by the standard.
         event.preventDefault();
-        // Chrome requires returnValue to be set.
         event.returnValue = '';
     }
 });
 
+//Checking if round has begun.
 var isRoundStartedRequest = $.ajax({
-    
+
     url: "/api/isRoundStarted",
     method: "GET",
     dataType: "json",
@@ -27,7 +27,6 @@ var isRoundStartedRequest = $.ajax({
             activeRound = true;
         }
     }
-
 });
 
 function newQuestion() {
@@ -39,7 +38,7 @@ function newQuestion() {
 
 
             success: function (data) {
-
+                //Creating new timer for new question.
                 $('#timer').svgTimer({
 
                     direction: 'forward',
@@ -50,7 +49,6 @@ function newQuestion() {
 
                 });
 
-
                 document.getElementById("question").innerText = data.question;
                 document.getElementById("ans1").textContent = data.answers[0];
                 document.getElementById("ans2").textContent = data.answers[1];
@@ -58,9 +56,10 @@ function newQuestion() {
                 document.getElementById("ans4").textContent = data.answers[3];
                 counter = data.counter;
 
-               document.getElementById("progressbar").style.width =10 *(counter+1) + "%";
+                //Updating progress bar for each new question.
+                document.getElementById("progressbar").style.width = 10 * (counter + 1) + "%";
 
-
+                //Enabling buttons for new question.
                 for (var i = 0; i < $(".btn-block").length; ++i) {
                     $(".btn-block")[i].disabled = false;
                 }
@@ -72,10 +71,13 @@ function newQuestion() {
         });
 }
 
+//Checking answer provided by user and updating relevant elements. 
 function checkAnswer(buttonClicked) {
+    //Obtaining time taken to answer question, refreshing timer after each check.
     var submittedTime = document.getElementById("timer").childNodes[0].childNodes[0].innerHTML;
     $("#timer").load(location.href + " #timer>*", "");
 
+    //Disabling buttons once an answer has been selected.
     for (var i = 0; i < document.getElementsByClassName("button-custom3").length; ++i) {
         document.getElementsByClassName("button-custom3")[i].disabled = true;
     }
@@ -99,10 +101,12 @@ function checkAnswer(buttonClicked) {
         },
 
         success: function (data) {
+            //Continue providing new questions until 10 total have been answered.
             if (counter < 9) {
                 newQuestion();
             }
             else {
+                //Ending round once 10 questions answered.
                 activeRound = false;
                 var endGameRequest = $.ajax({
                     url: "/api/endGame",
@@ -113,6 +117,7 @@ function checkAnswer(buttonClicked) {
                         alert(data.message);
                     },
                     success: function (data) {
+                        //Dynamically creating results table and displaying them to user.
                         document.getElementById("questionForm").style.display = "none";
                         document.getElementById("question").innerText = "Round complete! You earned: " + data.totalPoints + " points."
                         document.getElementById("resultstable").style.display = "inline";
@@ -134,6 +139,7 @@ function checkAnswer(buttonClicked) {
                         tableheading2.innerHTML = "Question";
                         var tablebody = document.createElement('tbody');
 
+                        //Creating row for every question in the round.
                         for (var i = 0; i < 10; ++i) {
                             var questiontr = document.createElement('tr');
 
@@ -147,12 +153,11 @@ function checkAnswer(buttonClicked) {
                             questioncontent.setAttribute("scope", "row");
                             questioncontent.innerText = data.roundQuestions[i].question;
 
-
-
                             tablebody.appendChild(questiontr);
                             questiontr.appendChild(questioncategory);
                             questiontr.appendChild(questioncontent);
 
+                            //Coloring row red if answered incorrectly, green if correctly.
                             if (data.roundQuestions[i].ifCorrect === false) {
                                 questioncategory.style.backgroundColor = "#FFB1BD";
                                 questioncontent.style.backgroundColor = "#FFB1BD";
@@ -161,22 +166,16 @@ function checkAnswer(buttonClicked) {
                                 questioncategory.style.backgroundColor = "#7FE6A1";
                                 questioncontent.style.backgroundColor = "#7FE6A1";
                             }
-
-
                         };
+                        //Appending tags to create table.
                         parentEl.appendChild(tablehead);
                         tablehead.appendChild(tabletr);
                         tabletr.appendChild(tableheading1);
                         tabletr.appendChild(tableheading2);
                         parentEl.appendChild(tablebody);
-
-
-
                     }
-
                 });
             }
-
         }
     });
 }

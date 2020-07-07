@@ -1,22 +1,18 @@
-checkLogin().then(function(isLoggedIn)
-{
-    if(isLoggedIn === false)
-    {
+//Altering leaderboard display depending on whether or not user is logged in.
+checkLogin().then(function (isLoggedIn) {
+    if (isLoggedIn === false) {
         $('#login').hide();
         $('#play').hide();
-        document.getElementById('logout').onclick = function()
-        {
+        document.getElementById('logout').onclick = function () {
             window.location = "Login.html";
-            return false;
+            //return false;
         };
         document.getElementById('logout').innerHTML = "Login";
         $('#matchHistory').hide();
-        
     }
-  
-})
+});
 
-
+//Request to obtain leaderboard information from back-end.
 var getLeaderboardRequest = $.ajax(
     {
         url: "/api/Leaderboard",
@@ -26,14 +22,13 @@ var getLeaderboardRequest = $.ajax(
         error: function (data) {
             alert(data.message);
         },
-
-        success: function (data) 
-        {
+        //Dynamically creating and populating leaderboard table. 
+        success: function (data) {
             var parentEl = document.getElementById('Leaderboard-container');
 
             var table = document.createElement('table');
             table.setAttribute("id", "leadertable");
-            table.classList.add("cstm-tbl", "table-responsive","table-bordered", "table-small", "table", "table-dark");
+            table.classList.add("cstm-tbl", "table-responsive", "table-bordered", "table-small", "table", "table-dark");
             table.setAttribute("style", "overflow-x:auto;");
 
             var tablehead = document.createElement('thead');
@@ -46,7 +41,6 @@ var getLeaderboardRequest = $.ajax(
             tableheading1.innerHTML = "Player";
             tableheading1.setAttribute("style", "width:86%;");
 
-
             var tableheading2 = document.createElement('th');
             tableheading2.setAttribute("scope", "col");
             tableheading2.classList.add("tbl-head");
@@ -54,6 +48,7 @@ var getLeaderboardRequest = $.ajax(
 
             var tablebody = document.createElement('tbody');
 
+            //Creating row for each of the top players.
             for (var i = 0; i < data.topPlayers.length; ++i) {
                 var playertr = document.createElement('tr');
 
@@ -67,33 +62,25 @@ var getLeaderboardRequest = $.ajax(
                 playerpoints.setAttribute("scope", "row");
                 playerpoints.innerHTML = data.topPlayers[i].points;
 
-                if(i % 2)
-                {
+                //Even and odd row color stylization.
+                if (i % 2) {
                     playerpoints.style.backgroundColor = "#7FE6A1";
-                    playername.style.backgroundColor="#7FE6A1";
+                    playername.style.backgroundColor = "#7FE6A1";
                 }
-                else
-                {
+                else {
                     playerpoints.style.backgroundColor = "#67CFEE";
-                    playername.style.backgroundColor="#67CFEE";
+                    playername.style.backgroundColor = "#67CFEE";
                 }
-                
-
-
                 tablebody.appendChild(playertr);
                 playertr.appendChild(playername);
                 playertr.appendChild(playerpoints);
             }
-
-
+            //Appending tags to create table.
             parentEl.appendChild(table);
             table.appendChild(tablehead);
             tablehead.appendChild(headtr);
             headtr.appendChild(tableheading1);
             headtr.appendChild(tableheading2);
             table.appendChild(tablebody);
-
-
         }
-
     });
