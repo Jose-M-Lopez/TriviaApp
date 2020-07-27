@@ -15,5 +15,4 @@ public class Leaderboard {
     public void insertUser(User player) {
         topPlayers.add(player);
     }
-
 }

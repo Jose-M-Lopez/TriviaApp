@@ -3,12 +3,9 @@ checkLogin().then(function (isLoggedIn) {
     if (isLoggedIn === false) {
         $('#login').hide();
         $('#play').hide();
-        document.getElementById('logout').onclick = function () {
-            window.location = "Login.html";
-            //return false;
-        };
-        document.getElementById('logout').innerHTML = "Login";
         $('#matchHistory').hide();
+        $('#logout').hide();
+        $('#nav-login').show();       
     }
 });
 

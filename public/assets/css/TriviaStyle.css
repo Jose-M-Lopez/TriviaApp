@@ -3,7 +3,7 @@
 /* SOURCE: https://www.dafont.com/simple-print.font */
 @font-face {
             font-family: Simple Print;
-            src: url(SimplePrint.ttf);
+            src: url(/assets/fonts/SimplePrint.ttf);
         }
 
         body {
@@ -39,9 +39,13 @@
             margin-left: 30px !important;
             margin-right: 30px !important;
             white-space:normal !important;
-            word-wrap:break-word
+            word-wrap:break-word;
         }
         
+        .btn-primary:hover
+        {
+            border-color:transparent;
+        }
 
         .btn-primary
         {

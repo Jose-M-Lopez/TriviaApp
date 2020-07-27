@@ -2,7 +2,7 @@
 
 @font-face {
     font-family: Simple Print;
-    src: url(SimplePrint.ttf);
+    src: url(/assets/fonts/SimplePrint.ttf);
 }
 
 .svg-hexagonal-counter {

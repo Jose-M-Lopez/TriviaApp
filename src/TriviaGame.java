@@ -202,6 +202,7 @@ public class TriviaGame {
         QuestionHistory Results = triviaDB.getQuestionHistory(session.get(SessionEnums.RoundID.name()).intValue(),
                 session.get(SessionEnums.score.name()).intValue());
 
+
         cleanSession(session);
 
         //Returning round results.
@@ -313,6 +314,11 @@ public class TriviaGame {
         if (!session.isSet(SessionEnums.UserID.name())) {
             return getGenericResponse("Not Logged In.", true);
         }
+
+        triviaDB.deleteIncompleteQuestions(session.get(SessionEnums.UserID.name()).intValue());
+        triviaDB.deleteIncompleteRounds(session.get(SessionEnums.UserID.name()).intValue());
+        cleanSession(session);
+
         return RoundHistoryJsonAdapter
                 .toJson(triviaDB.getRoundHistory(session.get(SessionEnums.UserID.name()).intValue()));
     }
