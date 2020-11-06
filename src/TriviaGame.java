@@ -298,7 +298,7 @@ public class TriviaGame {
     }
 
     //Returns questions for a specific round and the values associated with the questions.
-    @GET
+    @POST
     @Path("/questionHistory")
     public String questionHistory(Session session, int RoundID) throws SQLException {
         if (!session.isSet(SessionEnums.UserID.name())) {

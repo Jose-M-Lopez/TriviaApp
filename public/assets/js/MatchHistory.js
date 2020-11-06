@@ -53,7 +53,7 @@ function displayResults(data) {
     var roundQuestionRequest = $.ajax(
         {
             url: "/api/questionHistory",
-            method: "GET",
+            method: "POST",
             data: {
                 'RoundID': roundID,
             },
